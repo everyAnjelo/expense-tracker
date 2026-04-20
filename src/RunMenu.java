@@ -7,20 +7,19 @@ public class RunMenu {
     private ExpenseManager manager;
 
     public RunMenu() {
-        manager = new ExpenseManager(100); // budget
+        manager = new ExpenseManager(100);
     }
 
     public void runMenu() {
         while (isRunning) {
-            System.out.println("==== Expense Tracker ====");
+            System.out.println("\n==== Expense Tracker ====");
             System.out.println("1. Add Expense");
             System.out.println("2. View All Expenses");
             System.out.println("3. View Total Spending");
             System.out.println("4. View Spending by Category");
             System.out.println("5. Exit");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = readInt();
 
             switch (choice) {
 
@@ -29,13 +28,9 @@ public class RunMenu {
                     String name = scanner.nextLine();
 
                     System.out.println("Enter amount: ");
-                    double amount = scanner.nextDouble();
-                    scanner.nextLine();
+                    double amount = readDouble();
 
-                    System.out.println("Select category: FOOD, TRANSPORT, ENTERTAINMENT, BILLS");
-                    String categoryInput = scanner.nextLine().toUpperCase();
-
-                    Category category = Category.valueOf(categoryInput);
+                    Category category = readCategory();
 
                     Expense expense = new Expense(name, amount, category);
                     manager.addExpense(expense);
@@ -52,10 +47,7 @@ public class RunMenu {
                     break;
 
                 case 4:
-                    System.out.println("Enter category: ");
-                    String catInput = scanner.nextLine().toUpperCase();
-                    Category cat = Category.valueOf(catInput);
-
+                    Category cat = readCategory();
                     System.out.println("Total: $" + manager.getTotalByCategory(cat));
                     break;
 
@@ -66,6 +58,44 @@ public class RunMenu {
 
                 default:
                     System.out.println("Please enter a valid number (1-5)");
+            }
+        }
+    }
+
+    // 🔹 Safe integer input
+    private int readInt() {
+        while (true) {
+            try {
+                int value = Integer.parseInt(scanner.nextLine());
+                return value;
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please enter a number:");
+            }
+        }
+    }
+
+    // 🔹 Safe double input
+    private double readDouble() {
+        while (true) {
+            try {
+                double value = Double.parseDouble(scanner.nextLine());
+                return value;
+            } catch (Exception e) {
+                System.out.println("Invalid amount. Please enter a valid number:");
+            }
+        }
+    }
+
+    // 🔹 Safe category input
+    private Category readCategory() {
+        while (true) {
+            System.out.println("Select category: FOOD, TRANSPORT, ENTERTAINMENT, BILLS");
+            String input = scanner.nextLine().toUpperCase();
+
+            try {
+                return Category.valueOf(input);
+            } catch (Exception e) {
+                System.out.println("Invalid category. Try again.");
             }
         }
     }
