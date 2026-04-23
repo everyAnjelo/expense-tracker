@@ -3,8 +3,8 @@ import java.util.Scanner;
 public class RunMenu {
 
     private boolean isRunning = true;
-    private Scanner scanner = new Scanner(System.in);
-    private ExpenseManager manager;
+    private final Scanner scanner = new Scanner(System.in);
+    private final ExpenseManager manager;
 
     public RunMenu() {
         manager = new ExpenseManager(100);
@@ -12,13 +12,13 @@ public class RunMenu {
 
     public void runMenu() {
         while (isRunning) {
-            System.out.println("\n==== Expense Tracker ====");
+            /*System.out.println("\n==== Expense Tracker ====");
             System.out.println("1. Add Expense");
             System.out.println("2. View All Expenses");
             System.out.println("3. View Total Spending");
             System.out.println("4. View Spending by Category");
             System.out.println("5. Exit");
-
+            */
             int choice = readInt();
 
             switch (choice) {
@@ -64,7 +64,14 @@ public class RunMenu {
 
     // 🔹 Safe integer input
     private int readInt() {
+
         while (true) {
+            System.out.println("\n==== Expense Tracker ====");
+            System.out.println("1. Add Expense");
+            System.out.println("2. View All Expenses");
+            System.out.println("3. View Total Spending");
+            System.out.println("4. View Spending by Category");
+            System.out.println("5. Exit");
             try {
                 int value = Integer.parseInt(scanner.nextLine());
                 return value;

@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ExpenseManager implements Analyzable {
@@ -8,6 +12,8 @@ public class ExpenseManager implements Analyzable {
     public ExpenseManager(double budget) {
         this.expenses = new ArrayList<>();
         this.budget = budget;
+        loadFromFile();
+
     }
 
     @Override
@@ -26,6 +32,11 @@ public class ExpenseManager implements Analyzable {
 
         if (total > budget) {
             System.out.println("⚠️ Warning: Budget exceeded!");
+        }
+        try (FileWriter fw = new FileWriter("expenses.txt", true)) {
+            fw.write(e.getName() + "," + e.getAmount() + "," + e.getCategory() + "\n");
+        } catch (IOException ex) {
+            System.out.println("Error saving expense.");
         }
     }
 
@@ -48,6 +59,22 @@ public class ExpenseManager implements Analyzable {
         System.out.println("---- Expense List ----");
         for (Expense e : expenses) {
             System.out.println(e);
+        }
+    }
+    private void loadFromFile() {
+        try (BufferedReader br = new BufferedReader(new FileReader("expenses.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] parts = line.split(",");
+
+                String name = parts[0];
+                double amount = Double.parseDouble(parts[1]);
+                Category category = Category.valueOf(parts[2]);
+
+                expenses.add(new Expense(name, amount, category));
+            }
+        } catch (IOException e) {
+            System.out.println("No existing file found. Starting fresh.");
         }
     }
 }

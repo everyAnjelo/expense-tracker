@@ -12,6 +12,9 @@ public class Expense {
     public double getAmount() {
         return amount;
     }
+    public String getName() {
+        return name;
+    }
 
     public Category getCategory() {
         return category;
