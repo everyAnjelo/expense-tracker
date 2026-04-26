@@ -17,7 +17,10 @@ public class RunMenu {
             System.out.println("2. View All Expenses");
             System.out.println("3. View Total Spending");
             System.out.println("4. View Spending by Category");
-            System.out.println("5. Exit");
+            System.out.println("5. View Category Summary");
+            System.out.println("6. View Spending Breakdown");
+            System.out.println("7. View Sorted Expenses");
+            System.out.println("8. Exit");
 
             int choice = readInt();
 
@@ -52,12 +55,24 @@ public class RunMenu {
                     break;
 
                 case 5:
+                    manager.printCategorySummary();
+                    break;
+
+                case 6:
+                    manager.printCategoryBreakdown();
+                    break;
+
+                case 7:
+                    manager.printSortedExpenses();
+                    break;
+
+                case 8:
                     isRunning = false;
                     System.out.println("Exiting...");
                     break;
 
                 default:
-                    System.out.println("Please enter a valid number (1-5)");
+                    System.out.println("Please enter a valid number (1-8)");
             }
         }
     }
